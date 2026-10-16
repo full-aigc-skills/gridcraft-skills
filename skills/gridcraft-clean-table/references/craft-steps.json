@@ -1,0 +1,42 @@
+{
+  "schema": "craft-scenario-playbooks/v1",
+  "application": "gridcraft",
+  "id": "clean-table",
+  "execution": "COMMAND_MAPPED_NOT_SCENE_ACCEPTED",
+  "steps": [
+    {
+      "purpose": "读取原始值与公式",
+      "command": "sheet.read",
+      "params": {
+        "range": "A1:D100",
+        "formulas": true
+      }
+    },
+    {
+      "purpose": "按指定分隔符拆列到空白区域",
+      "command": "data.textToColumns",
+      "params": {
+        "range": "A2:A100",
+        "delimiters": [
+          ","
+        ],
+        "destination": "F2"
+      }
+    },
+    {
+      "purpose": "在工作副本按业务主键去重",
+      "command": "data.removeDuplicates",
+      "params": {
+        "range": "F1:I100",
+        "columns": [
+          "F"
+        ],
+        "header": true
+      }
+    }
+  ],
+  "check": "抽查行数、空值、主键和前导零，重复合并规则有业务依据。",
+  "boundary": "先检查目标列为空；不同记录不能仅因某一列相同就删除。",
+  "templateOnly": true,
+  "argumentPolicy": "示例参数必须按当前输入、选择和实际返回ID替换；$变量先解析，数组变量整字段替换，不能将本文件直接当原生CLI脚本执行。"
+}
