@@ -22,3 +22,7 @@ license: Apache-2.0
 [结构化步骤](references/recipes.json)含测试输入的可观察断言；[命令证据](references/command-evidence.json)证明方法在固定运行时被观察，不证明场景效果已验收。[来源与许可](references/sources.json)记录借鉴的GitHub工作流事实，正文与参数例子为原创适配，没有执行外部Office脚本。
 
 `gridcraft-cli cat` 返回格式化显示值，例如 `35.0%`。读取计算值应在 run 中执行 `sheet.read {"range":"E2","formulas":false,"formatted":false}`，读取公式则另调用 `formulas:true`；不要将显示文本解析成底层金额或比率。
+
+## 技能商店场景经验
+
+遇到保留可重算的报价模型、标记重复而不丢失记录、增长率的零基期边界时，读取[商店工作流适配](references/market-workflows.md)，使用对应的Craft方法和实际结果检查。上游技能不作为运行依赖。
