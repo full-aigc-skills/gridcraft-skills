@@ -22,6 +22,8 @@ license: Apache-2.0
 3. 按明确规则标记重复和缺失，不凭猜测填充。
 4. 汇总清洗前后行数和异常项。
 
+先确认输出空白，再将目标主键列设为文本后拆列，保留前导零；默认只删除完全相同的整行，主键冲突留待复核。
+
 ## 工具落地
 
 用 open_workbook/new_workbook 管理工作簿；read_range 检查、set_cell 编辑，execute_command 使用完整命令；save_workbook 保存。

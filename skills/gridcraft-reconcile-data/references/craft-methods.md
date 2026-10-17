@@ -5,9 +5,10 @@
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
 | 1. 读取双方主键与金额 | `sheet.read` | `{"range":"A1:D100","formulas":true}` |
-| 2. 在新列查找匹配记录 | `cell.set` | `{"cell":"E2","input":"=IFERROR(VLOOKUP(A2,Sheet2!A:B,2,FALSE),\"未匹配\")"}` |
-| 3. 在新列计算金额差额 | `cell.set` | `{"cell":"F2","input":"=IF(ISNUMBER(E2),B2-E2,\"\")"}` |
-| 4. 检查计算结果 | `sheet.read` | `{"range":"A2:F10"}` |
+| 2. 先检查主键缺失/重复，唯一匹配才提取金额 | `cell.set` | `{"cell":"E2","input":"=IF(A2=\"\",IF(B2=\"\",\"\",\"缺少主键\"),IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=0,\"未匹配\",IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=1,VLOOKUP(A2,Sheet2!$A$2:$B$100,2,FALSE),\"重复键\")))"}` |
+| 3. 在新列计算金额差额 | `cell.set` | `{"cell":"F2","input":"=IF(AND(ISNUMBER(B2),ISNUMBER(E2)),B2-E2,\"\")"}` |
+| 4. 按实际末行替换100，填充每行且固定对方数据范围 | `edit.fillDown` | `{"range":"E2:F100"}` |
+| 5. 检查计算结果 | `sheet.read` | `{"range":"A2:F10"}` |
 
 ## 如何调用
 
@@ -30,3 +31,5 @@ gridcraft-cli run --in input.xlsx --cmd 'cell.set={"cell":"B2","input":"=A2*2"}'
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 
 工作流来源与许可见 [workflow-sources.json](workflow-sources.json)。仅借鉴事实与方法，本文与参数例子原创编写。
+
+本轮实际边界：工作表名、键列和重复键必须先查；VLOOKUP只取首条，不适合未处理的多对多。 当前示例先COUNTIF分流重复键，不使用IFERROR把重复键隐藏成首条金额。示例100替换为真实范围，双方原始键/金额及所有未匹配行保留。

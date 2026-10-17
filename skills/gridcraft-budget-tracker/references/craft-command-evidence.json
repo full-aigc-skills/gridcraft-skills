@@ -32,5 +32,9 @@
       "shortcut": null
     }
   },
-  "sceneAcceptance": "NOT_RUN"
+  "sceneAcceptance": "NOT_RUN",
+  "additionalObservation": {
+    "runtime": "official gridcraft-cli0.7.0 macOS universal",
+    "scope": "native method catalog; no host acceptance inferred"
+  }
 }

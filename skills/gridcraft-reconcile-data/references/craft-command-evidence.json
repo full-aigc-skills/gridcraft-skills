@@ -20,7 +20,22 @@
       "menu": [],
       "params": "{cell?: \"B2\", input: \"text, number or =formula\", sheet?, array?: bool}",
       "shortcut": null
+    },
+    "edit.fillDown": {
+      "id": "edit.fillDown",
+      "label": "Fill Down",
+      "menu": [
+        "Home",
+        "Editing",
+        "Fill"
+      ],
+      "params": "{range?}",
+      "shortcut": "Cmd+D"
     }
   },
-  "sceneAcceptance": "NOT_RUN"
+  "sceneAcceptance": "NOT_RUN",
+  "additionalObservation": {
+    "runtime": "official gridcraft-cli0.7.0 macOS universal",
+    "scope": "native method catalog; no host acceptance inferred"
+  }
 }

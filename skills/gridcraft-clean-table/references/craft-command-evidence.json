@@ -33,7 +33,21 @@
       ],
       "params": "{range?, columns?: [\"A\",\"C\"], header?: bool}",
       "shortcut": null
+    },
+    "home.numberFormat": {
+      "id": "home.numberFormat",
+      "label": "Number Format",
+      "menu": [
+        "Home",
+        "Number"
+      ],
+      "params": "{range?, format: \"General\"|\"Number\"|\"Currency\"|\"Accounting\"|\"Short Date\"|\"Long Date\"|\"Time\"|\"Percentage\"|\"Fraction\"|\"Scientific\"|\"Text\" | code: \"0.00\"}",
+      "shortcut": null
     }
   },
-  "sceneAcceptance": "NOT_RUN"
+  "sceneAcceptance": "NOT_RUN",
+  "additionalObservation": {
+    "runtime": "official gridcraft-cli0.7.0 macOS universal",
+    "scope": "native method catalog; no host acceptance inferred"
+  }
 }

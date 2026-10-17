@@ -22,6 +22,8 @@ license: Apache-2.0
 3. 对共同记录核对金额、数量及状态。
 4. 汇总差异原因，保留原始明细与匹配结果。
 
+先统计对方主键数量，只有唯一匹配才能提取金额；未匹配、重复键、缺少主键分别保留状态，不能只依赖VLOOKUP首条结果。
+
 ## 工具落地
 
 用 open_workbook/new_workbook 管理工作簿；read_range 检查、set_cell 编辑，execute_command 使用完整命令；save_workbook 保存。

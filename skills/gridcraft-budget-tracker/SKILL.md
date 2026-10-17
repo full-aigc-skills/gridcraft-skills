@@ -22,6 +22,8 @@ license: Apache-2.0
 3. 区分一次性费用和周期费用，标注缺失数据。
 4. 用条件格式突出偏差并检查极值。
 
+缺值与数值零分别处理：预算或实际缺失时显示待确认，不能自动当零相减。
+
 ## 工具落地
 
 用 open_workbook/new_workbook 管理工作簿；read_range 检查、set_cell 编辑，execute_command 使用完整命令；save_workbook 保存。
