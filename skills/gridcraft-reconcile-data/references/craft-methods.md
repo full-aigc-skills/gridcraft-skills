@@ -4,11 +4,12 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 读取双方主键与金额 | `sheet.read` | `{"range":"A1:D100","formulas":true}` |
-| 2. 先检查主键缺失/重复，唯一匹配才提取金额 | `cell.set` | `{"cell":"E2","input":"=IF(A2=\"\",IF(B2=\"\",\"\",\"缺少主键\"),IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=0,\"未匹配\",IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=1,VLOOKUP(A2,Sheet2!$A$2:$B$100,2,FALSE),\"重复键\")))"}` |
-| 3. 在新列计算金额差额 | `cell.set` | `{"cell":"F2","input":"=IF(AND(ISNUMBER(B2),ISNUMBER(E2)),B2-E2,\"\")"}` |
-| 4. 按实际末行替换100，填充每行且固定对方数据范围 | `edit.fillDown` | `{"range":"E2:F100"}` |
-| 5. 检查计算结果 | `sheet.read` | `{"range":"A2:F10"}` |
+| 1. 读取本方主键与金额 | `sheet.read` | `{"range":"A1:D100","formulas":true}` |
+| 2. 实际读取对方工作表字段和主键范围，不凭名称假设结构 | `sheet.read` | `{"sheet":"Sheet2","range":"A1:B100","formulas":true}` |
+| 3. 先检查主键缺失/重复，唯一匹配才提取金额 | `cell.set` | `{"cell":"E2","input":"=IF(A2=\"\",IF(B2=\"\",\"\",\"缺少主键\"),IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=0,\"未匹配\",IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=1,VLOOKUP(A2,Sheet2!$A$2:$B$100,2,FALSE),\"重复键\")))"}` |
+| 4. 在新列计算金额差额 | `cell.set` | `{"cell":"F2","input":"=IF(AND(ISNUMBER(B2),ISNUMBER(E2)),B2-E2,\"\")"}` |
+| 5. 按实际末行替换100，填充每行且固定对方数据范围 | `edit.fillDown` | `{"range":"E2:F100"}` |
+| 6. 检查计算结果 | `sheet.read` | `{"range":"A2:F10"}` |
 
 ## 如何调用
 

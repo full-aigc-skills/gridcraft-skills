@@ -5,10 +5,19 @@
   "execution": "COMMAND_MAPPED_NOT_SCENE_ACCEPTED",
   "steps": [
     {
-      "purpose": "读取双方主键与金额",
+      "purpose": "读取本方主键与金额",
       "command": "sheet.read",
       "params": {
         "range": "A1:D100",
+        "formulas": true
+      }
+    },
+    {
+      "purpose": "实际读取对方工作表字段和主键范围，不凭名称假设结构",
+      "command": "sheet.read",
+      "params": {
+        "sheet": "Sheet2",
+        "range": "A1:B100",
         "formulas": true
       }
     },
