@@ -10,4 +10,4 @@
 
 ## 工时、分期测算及月历模板开发候选
 
-新增三个独立技能：`gridcraft-shift-timesheet`、`gridcraft-fixed-payment`、`gridcraft-month-calendar`，参考Apache POI固定GitHub提交的Excel示例并原创适配方法、参数、输入与检查。官方0.7.0 macOS完整21记录147次CLI通过，新模板包含跨午夜/午夜0、零利率、非整数月数、闰年、缺失/非法月份的重算，20个XLSX输出保留公式、输入规则和格式。原表除活动页选择标志外XML一致，原文件摘要不变。当前未随主市场发行，Windows、真实内容、外部Excel显示及宿主同步待验证。
+新增三个独立技能：`gridcraft-shift-timesheet`、`gridcraft-fixed-payment`、`gridcraft-month-calendar`，参考Apache POI固定GitHub提交的Excel示例并原创适配方法、参数、输入与检查。官方0.7.0 macOS完整21记录147次CLI通过，新模板包含跨午夜/午夜0、零利率、非整数月数、闰年、缺失/非法月份的重算，20个XLSX输出保留公式、输入规则和格式。原表除活动页选择标志外XML一致，原文件摘要不变。当前未随主市场发行，Windows21记录及输出摘要通过；隔离本地候选真实Codex MCP与内置浏览器已观察午夜、零利率和闰年/平年切换同步，七个实际XLSX独立回读通过。真实内容、外部Excel显示和其他宿主仍未验收。
