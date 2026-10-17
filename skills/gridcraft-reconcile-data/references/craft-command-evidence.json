@@ -31,6 +31,20 @@
       ],
       "params": "{range?}",
       "shortcut": "Cmd+D"
+    },
+    "sheet.activate": {
+      "id": "sheet.activate",
+      "label": "Activate Sheet",
+      "menu": [],
+      "params": "{sheet: index | name}",
+      "shortcut": null
+    },
+    "range.setValues": {
+      "id": "range.setValues",
+      "label": "Set Values",
+      "menu": [],
+      "params": "{range?: \"A1\", values: [[...]] (rows of numbers/strings/bools/null; strings starting with = are formulas)}",
+      "shortcut": null
     }
   },
   "sceneAcceptance": "NOT_RUN",

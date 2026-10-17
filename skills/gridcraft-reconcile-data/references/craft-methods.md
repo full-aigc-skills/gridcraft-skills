@@ -6,10 +6,17 @@
 | --- | --- | --- |
 | 1. 读取本方主键与金额 | `sheet.read` | `{"range":"A1:D100","formulas":true}` |
 | 2. 实际读取对方工作表字段和主键范围，不凭名称假设结构 | `sheet.read` | `{"sheet":"Sheet2","range":"A1:B100","formulas":true}` |
-| 3. 先检查主键缺失/重复，唯一匹配才提取金额 | `cell.set` | `{"cell":"E2","input":"=IF(A2=\"\",IF(B2=\"\",\"\",\"缺少主键\"),IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=0,\"未匹配\",IF(COUNTIF(Sheet2!$A$2:$A$100,A2)=1,VLOOKUP(A2,Sheet2!$A$2:$B$100,2,FALSE),\"重复键\")))"}` |
-| 4. 在新列计算金额差额 | `cell.set` | `{"cell":"F2","input":"=IF(AND(ISNUMBER(B2),ISNUMBER(E2)),B2-E2,\"\")"}` |
-| 5. 按实际末行替换100，填充每行且固定对方数据范围 | `edit.fillDown` | `{"range":"E2:F100"}` |
-| 6. 检查计算结果 | `sheet.read` | `{"range":"A2:F10"}` |
+| 3. 确认对方空白辅助列；非空时更换列并同步公式范围 | `sheet.read` | `{"sheet":"Sheet2","range":"D1:E100","formulas":true}` |
+| 4. 切换到对方表建立工作副本辅助索引 | `sheet.activate` | `{"sheet":"Sheet2"}` |
+| 5. 在空白列写辅助表头，保留原A:B | `range.setValues` | `{"range":"D1","values":[["匹配键","对方金额"]]}` |
+| 6. 为键加非数字前缀，避免COUNTIF把001与1合并 | `cell.set` | `{"cell":"D2","input":"=IF(A2=\"\",\"\",\"KEY:\"&A2)"}` |
+| 7. 保留有效金额并标识缺失，不把空金额变成0 | `cell.set` | `{"cell":"E2","input":"=IF(A2=\"\",\"\",IF(ISNUMBER(B2),B2,\"待确认对方金额\"))"}` |
+| 8. 按实际末行填充辅助索引 | `edit.fillDown` | `{"range":"D2:E100"}` |
+| 9. 返回本方表写匹配结果 | `sheet.activate` | `{"sheet":"Sheet1"}` |
+| 10. 使用同一前缀计数并只提取唯一匹配 | `cell.set` | `{"cell":"E2","input":"=IF(A2=\"\",IF(B2=\"\",\"\",\"缺少主键\"),IF(COUNTIF(Sheet2!$D$2:$D$100,\"KEY:\"&A2)=0,\"未匹配\",IF(COUNTIF(Sheet2!$D$2:$D$100,\"KEY:\"&A2)=1,VLOOKUP(\"KEY:\"&A2,Sheet2!$D$2:$E$100,2,FALSE),\"重复键\")))"}` |
+| 11. 仅对双方有效数字计算金额差 | `cell.set` | `{"cell":"F2","input":"=IF(AND(ISNUMBER(B2),ISNUMBER(E2)),B2-E2,\"\")"}` |
+| 12. 按实际末行填充，固定对方索引范围 | `edit.fillDown` | `{"range":"E2:F100"}` |
+| 13. 核对全部状态和差额 | `sheet.read` | `{"range":"A2:F10"}` |
 
 ## 如何调用
 
@@ -34,3 +41,5 @@ gridcraft-cli run --in input.xlsx --cmd 'cell.set={"cell":"B2","input":"=A2*2"}'
 工作流来源与许可见 [workflow-sources.json](workflow-sources.json)。仅借鉴事实与方法，本文与参数例子原创编写。
 
 本轮实际边界：工作表名、键列和重复键必须先查；VLOOKUP只取首条，不适合未处理的多对多。 当前示例先COUNTIF分流重复键，不使用IFERROR把重复键隐藏成首条金额。示例100替换为真实范围，双方原始键/金额及所有未匹配行保留。
+
+数字文本键补充：工作表名、键列和重复键必须先查；VLOOKUP只取首条，不适合未处理的多对多。 当前示例先COUNTIF分流重复键，不使用IFERROR把重复键隐藏成首条金额。示例100替换为真实范围，双方原始键/金额及所有未匹配行保留。 原生COUNTIF对纯数字文本条件会合并001/1，示例改为KEY:前缀索引；须先确认Sheet2的D:E以及Sheet1的E:F为空并按实际表名/列/末行替换。前缀不恢复原来已经丢失的零；原始主键须先按文本读取核对。本例验证字母/数字业务键，不推断大小写敏感或通配符键规则。
